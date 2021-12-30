@@ -11,12 +11,13 @@
                         </div>
                     </div>
                     <div class="user-info-list">
-                        上次登录时间：
-                        <span>2019-11-01</span>
+                        上次登录时间:
+                        <span>{{ dateObj.date }}{{ dateObj.time }}</span>
                     </div>
+                    <div id="time"></div>
                     <div class="user-info-list">
-                        上次登录地点：
-                        <span>东莞</span>
+                        上次登录地点:
+                        <span>芜湖</span>
                     </div>
                 </el-card>
                 <el-card shadow="hover" style="height:252px;">
@@ -116,7 +117,7 @@
 
 <script>
 import Schart from "vue-schart";
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 export default {
     name: "dashboard",
     components: { Schart },
@@ -224,6 +225,18 @@ export default {
             },
         ]);
 
+        function showTime(){
+            const da = new Date();
+            const day = da.toLocaleDateString();
+            const time = da.toLocaleTimeString();
+            const dateobj = {'date':day,'time':time};
+            function out (){
+                return dateobj;
+            }
+            return out();
+        }        
+        const dateObj = showTime();        
+        
         return {
             name,
             data,
@@ -231,8 +244,15 @@ export default {
             options2,
             todoList,
             role,
+            dateObj,
         };
+
+        
     },
+    
+    methods:{       
+        
+    }
 };
 </script>
 

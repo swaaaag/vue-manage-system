@@ -48,7 +48,7 @@ import { useRouter } from "vue-router";
 export default {
     setup() {
         const username = localStorage.getItem("ms_username");
-        const message = 2;
+        const message = 1;
 
         const store = useStore();
         const collapse = computed(() => store.state.collapse);

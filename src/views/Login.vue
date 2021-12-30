@@ -46,11 +46,15 @@ export default {
                 {
                     required: true,
                     message: "请输入用户名",
-                    trigger: "blur",
-                },
+                    trigger: "blur"
+                }
             ],
             password: [
-                { required: true, message: "请输入密码", trigger: "blur" },
+                { 
+                    required: true,
+                    message: "请输入密码",
+                    trigger: "blur" 
+                }
             ],
         };
         const login = ref(null);
@@ -61,7 +65,7 @@ export default {
                     localStorage.setItem("ms_username", param.username);
                     router.push("/");
                 } else {
-                    ElMessage.error("登录成功");
+                    ElMessage.error("登录失败");
                     return false;
                 }
             });
