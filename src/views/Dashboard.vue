@@ -14,7 +14,7 @@
                         上次登录时间:
                         <span>{{ dateObj.date }}{{ dateObj.time }}</span>
                     </div>
-                    <div id="time"></div>
+                    <h3>{{ timee }}</h3>
                     <div class="user-info-list">
                         上次登录地点:
                         <span>芜湖</span>
@@ -117,14 +117,18 @@
 
 <script>
 import Schart from "vue-schart";
-import { onMounted, reactive } from "vue";
+import { onBeforeMount, onMounted, reactive, ref } from "vue";
 export default {
     name: "dashboard",
     components: { Schart },
+    data() {
+        return {
+            //nowtime: '55'
+        }
+    },
     setup() {
         const name = localStorage.getItem("ms_username");
         const role = name === "admin" ? "超级管理员" : "普通用户";
-
         const data = reactive([
             {
                 name: "2018/09/04",
@@ -225,7 +229,7 @@ export default {
             },
         ]);
 
-        function showTime(){
+        const showTime = () => {
             const da = new Date();
             const day = da.toLocaleDateString();
             const time = da.toLocaleTimeString();
@@ -235,8 +239,30 @@ export default {
             }
             return out();
         }        
-        const dateObj = showTime();        
-        
+        const dateObj = showTime();
+
+        const reftime = ref(null);      
+         
+        const timee = ref('');
+
+        const timer = () => {
+        setInterval(
+            function num(){
+                let da = new Date();      
+                let hours = da.getHours();
+                let minutes = da.getMinutes();
+                let seconds = da.getSeconds();
+                let str = `${hours}:${minutes}:${seconds}`;
+                timee.value = str;               
+             },1000)
+        };      
+
+        onMounted(
+            () => {
+                 console.log('The Component is Mounted');
+                 timer();                              
+            },
+        )
         return {
             name,
             data,
@@ -245,14 +271,13 @@ export default {
             todoList,
             role,
             dateObj,
+            reftime,
+            timee,
         };
 
         
     },
-    
-    methods:{       
-        
-    }
+      
 };
 </script>
 

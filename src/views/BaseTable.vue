@@ -74,13 +74,14 @@
                 </span>
             </template>
         </el-dialog>
+        <el-button type="primary" @click="getLoc">定位</el-button>
     </div>
 </template>
 
 <script>
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { fetchData } from "../api/index";
+import  req  from "../api/index.js";
 
 export default {
     name: "basetable",
@@ -95,13 +96,18 @@ export default {
         const pageTotal = ref(0);
         // 获取表格数据
         const getData = () => {
-            fetchData(query).then((res) => {
+            req.fetchData(query).then((res) => {
                 tableData.value = res.list;
                 pageTotal.value = res.pageTotal || 50;
             });
         };
         getData();
-
+        //定位
+        const getLoc = () => {
+            req.getLocation().then((res) => {
+                console.log(res)
+            })
+        }
         // 查询操作
         const handleSearch = () => {
             query.pageIndex = 1;
@@ -159,6 +165,7 @@ export default {
             handleDelete,
             handleEdit,
             saveEdit,
+            getLoc,
         };
     },
 };
