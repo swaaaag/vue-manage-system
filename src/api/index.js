@@ -1,6 +1,6 @@
 import request from '../utils/request';
 
-const baseURL = '/api'
+const locationURL = '/getLocation'
 export default {
     fetchData() {
         // return request({
@@ -12,6 +12,6 @@ export default {
     },
 
     getLocation() {       
-        return request.get(this.baseURL+'/ws/location/v1/ip?key=V22BZ-VI566-UFAS4-E5M2R-R5G72-TUFMM')
+        return request.get(locationURL+'/ws/location/v1/ip?key=V22BZ-VI566-UFAS4-E5M2R-R5G72-TUFMM')
     }
 }

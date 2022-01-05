@@ -74,12 +74,13 @@
                 </span>
             </template>
         </el-dialog>
-        <el-button type="primary" @click="getLoc">定位</el-button>
+        <el-button type="primary" @click="getLoc">显示定位</el-button>
+        <p v-show="locFlag">当前位置：{{ ad_info.province }}{{ ad_info.city }}{{ ad_info.distrct }}</p>
     </div>
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted, onBeforeMount } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import  req  from "../api/index.js";
 
@@ -102,11 +103,30 @@ export default {
             });
         };
         getData();
-        //定位
+
+        //获取定位
+        const locFlag = ref(false);
+        const ad_info = ref({});
         const getLoc = () => {
-            req.getLocation().then((res) => {
-                console.log(res)
+            //console.log(ad_info.value.adcode)
+            if(ad_info.value.adcode == undefined){
+            req.getLocation()
+            .then((res) => {               
+                if(res.status == 0){
+                    ad_info.value = res.result.ad_info;
+                    locFlag.value = true;
+                }
+                else{
+                    console.log(res); 
+                }           
             })
+            .catch(err => {
+                console.log(err)
+            })
+            }else{
+                locFlag.value = false;
+                ad_info.value = '';
+            }
         }
         // 查询操作
         const handleSearch = () => {
@@ -166,7 +186,12 @@ export default {
             handleEdit,
             saveEdit,
             getLoc,
+            ad_info,
+            locFlag,
         };
+    },
+    created(){
+        
     },
 };
 </script>
